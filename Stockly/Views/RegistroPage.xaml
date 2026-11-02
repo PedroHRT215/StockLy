@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Stockly.Views.RegistroPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="White">
+
+    <Grid>
+        <ScrollView VerticalOptions="Center">
+
+            <Frame HorizontalOptions="Center" 
+                   VerticalOptions="Center" 
+                   WidthRequest="450" 
+                   BackgroundColor="White" 
+                   BorderColor="LightGray" 
+                   CornerRadius="12" 
+                   HasShadow="True"
+                   Padding="40">
+
+                <VerticalStackLayout Spacing="15">
+
+                    <!-- Cabeçalho -->
+                    <Label Text="Nova Conta" 
+                           FontSize="28" 
+                           FontAttributes="Bold" 
+                           TextColor="DarkBlue" 
+                           HorizontalOptions="Center"/>
+
+                    <Label Text="Preencha os dados abaixo para fazer parte do Stockly" 
+                           FontSize="14" 
+                           TextColor="Gray" 
+                           HorizontalOptions="Center" 
+                           HorizontalTextAlignment="Center"
+                           Margin="0,0,0,15"/>
+
+                    <!-- Campo Nome -->
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Nome Completo:" FontAttributes="Bold" TextColor="#0E2356"/>
+                        <Frame BorderColor="#E0E0E0" BackgroundColor="#F8F9FA" CornerRadius="8" Padding="15,0" HasShadow="False" HeightRequest="45">
+                            <Entry TextColor="Black" BackgroundColor="Transparent" Placeholder="Ex: João da Silva" Text="{Binding Nome}"/>
+                        </Frame>
+                    </VerticalStackLayout>
+
+                    <!-- Campo CPF e Tipo de Acesso -->
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+                        <VerticalStackLayout Grid.Column="0" Spacing="5">
+                            <Label Text="CPF:" FontAttributes="Bold" TextColor="#0E2356"/>
+                            <Frame BorderColor="#E0E0E0" 
+                                   BackgroundColor="#F8F9FA" 
+                                   CornerRadius="8" Padding="15,0" 
+                                   HasShadow="False"
+                                   HeightRequest="45">
+                                <Entry TextColor="Black" 
+                                       BackgroundColor="Transparent" 
+                                       Keyboard="Numeric" 
+                                       Placeholder="Apenas números" 
+                                       Text="{Binding CPF}"/>
+                            </Frame>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="5">
+                            <Label Text="Tipo de Acesso:" FontAttributes="Bold" TextColor="#0E2356"/>
+                            <Frame BorderColor="#E0E0E0" BackgroundColor="#F8F9FA" CornerRadius="8" Padding="15,0" HasShadow="False">
+                                <Picker TextColor="Black" 
+                                        SelectedItem="{Binding TipoSelecionado, Mode=TwoWay}"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="Fill"
+                                        HeightRequest="45">
+                                    <Picker.Triggers>
+                                        <Trigger TargetType="Picker" Property="SelectedIndex" Value="-1">
+                                            <Setter Property="Title" Value="Selecione..." />
+                                            <Setter Property="TitleColor" Value="Gray" />
+                                        </Trigger>
+                                    </Picker.Triggers>
+                                    <Picker.Items>
+                                        <x:String>Administrador</x:String>
+                                        <x:String>Cliente</x:String>
+                                    </Picker.Items>
+                                </Picker>
+                            </Frame>
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <!-- Campo e-mail -->
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="E-mail:" FontAttributes="Bold" TextColor="#0E2356"/>
+                        <Frame BorderColor="#E0E0E0" BackgroundColor="#F8F9FA" CornerRadius="8" Padding="15,0" HasShadow="False" HeightRequest="45">
+                            <Entry TextColor="Black" BackgroundColor="Transparent" Keyboard="Email" Placeholder="exemplo@stockly.com" Text="{Binding Email}"/>
+                        </Frame>
+                    </VerticalStackLayout>
+
+                    <!-- Campo senha -->
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Senha:" FontAttributes="Bold" TextColor="#0E2356"/>
+                        <Frame BorderColor="#E0E0E0" BackgroundColor="#F8F9FA" CornerRadius="8" Padding="15,0" HasShadow="False" HeightRequest="45">
+                            <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center">
+                                <Entry Grid.Column="0" 
+                                       TextColor="Black" 
+                                       BackgroundColor="Transparent" 
+                                       Placeholder="Crie uma senha" 
+                                       Text="{Binding Senha}"
+                                       VerticalOptions="Center"
+                                       IsPassword="True">
+                                    <Entry.Triggers>
+                                        <DataTrigger TargetType="Entry" Binding="{Binding Source={x:Reference CheckMostrarSenha}, Path=IsChecked}" Value="True">
+                                            <Setter Property="IsPassword" Value="False" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Entry" Binding="{Binding Source={x:Reference CheckMostrarSenha}, Path=IsChecked}" Value="False">
+                                            <Setter Property="IsPassword" Value="True" />
+                                        </DataTrigger>
+                                    </Entry.Triggers>
+                                </Entry>
+                                <HorizontalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="0">
+                                    <CheckBox x:Name="CheckMostrarSenha" Color="#0E2356" />
+                                    <Label Text="Mostrar" 
+                                           TextColor="Gray" 
+                                           VerticalOptions="Center" 
+                                           FontSize="12">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={x:Reference CheckMostrarSenha}, Path=IsChecked}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </HorizontalStackLayout>
+                            </Grid>
+                        </Frame>
+                    </VerticalStackLayout>
+
+                    <!-- Campo Confirmar Senha -->
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Confirmar Senha:" FontAttributes="Bold" TextColor="#0E2356"/>
+                        <Frame BorderColor="#E0E0E0" BackgroundColor="#F8F9FA" CornerRadius="8" Padding="15,0" HasShadow="False" HeightRequest="45">
+                            <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center">
+                                <Entry Grid.Column="0" 
+                                       TextColor="Black" 
+                                       BackgroundColor="Transparent" 
+                                       Placeholder="Repita a sua senha" 
+                                       Text="{Binding ConfirmarSenha}"
+                                       VerticalOptions="Center"
+                                       IsPassword="True">
+                                    <Entry.Triggers>
+                                        <DataTrigger TargetType="Entry" Binding="{Binding Source={x:Reference CheckMostrarConfirmarSenha}, Path=IsChecked}" Value="True">
+                                            <Setter Property="IsPassword" Value="False" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Entry" Binding="{Binding Source={x:Reference CheckMostrarConfirmarSenha}, Path=IsChecked}" Value="False">
+                                            <Setter Property="IsPassword" Value="True" />
+                                        </DataTrigger>
+                                    </Entry.Triggers>
+                                </Entry>
+                                <HorizontalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="0">
+                                    <CheckBox x:Name="CheckMostrarConfirmarSenha" Color="#0E2356" />
+                                    <Label Text="Mostrar" 
+                                           TextColor="Gray" 
+                                           VerticalOptions="Center" 
+                                           FontSize="12">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={x:Reference CheckMostrarConfirmarSenha}, Path=IsChecked}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </HorizontalStackLayout>
+                            </Grid>
+                        </Frame>
+
+                        <!-- Mensagem de erro da senha -->
+                        <Label Text="{Binding MensagemValidacaoSenha}" 
+                               IsVisible="{Binding ExibirMensagemErroSenha}" 
+                               TextColor="Red" 
+                               FontSize="12" 
+                               Margin="5,0,0,0" />
+
+                    </VerticalStackLayout>
+
+                    <!-- Botões de Ação -->
+                    <VerticalStackLayout Spacing="10" Margin="0,20,0,0">
+                        <Button Text="Confirmar Cadastro" 
+                            FontAttributes="Bold" 
+                            FontSize="16" 
+                            TextColor="White" 
+                            BackgroundColor="DarkBlue" 
+                            CornerRadius="8" 
+                            HeightRequest="50" 
+                            Command="{Binding SalvarCadastroCommand}"/>
+
+                        <Button Text="Voltar para o Login" 
+                            FontAttributes="Bold" 
+                            FontSize="14" 
+                            TextColor="Gray" 
+                            BackgroundColor="Transparent" 
+                            HorizontalOptions="Center"
+                            Command="{Binding VoltarCommand}"/>
+                    </VerticalStackLayout>
+
+                </VerticalStackLayout>
+            </Frame>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>
